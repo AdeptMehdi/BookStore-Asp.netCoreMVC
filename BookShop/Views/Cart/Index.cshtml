@@ -1,0 +1,48 @@
+﻿@model List<BookStore.Models.CartItemModel>
+@{
+    ViewData["Title"] = "Shopping Cart";
+}
+
+<h2>Shopping Cart</h2>
+
+@if (!Model.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <form asp-action="Update" method="post">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Book</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@Model[i].Book.Title</td>
+                    <td>$@Model[i].Book.Price</td>
+                    <td>
+                        <input type="number" name="[@i].Quantity" value="@Model[i].Quantity" min="1" class="form-control"/>
+                        <input type="hidden" name="[@i].Book.Id" value="@Model[i].Book.Id" />
+                    </td>
+                    <td>$@(Model[i].Book.Price * Model[i].Quantity)</td>
+                    <td>
+                        <a asp-action="Remove" asp-route-id="@Model[i].Book.Id" class="btn btn-danger btn-sm">Remove</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <div class="text-end mb-3">
+            <strong>Total: $@ViewBag.Total</strong>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Cart</button>
+    </form>
+}
