@@ -19,11 +19,13 @@ namespace BookShop.Controllers
             _context = context;
         }
 
-        // GET: Category
+        // GET: Category/Index
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var categories = await _context.Categories.ToListAsync();
+            return View(categories);
         }
+
 
         // GET: Category/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -43,6 +45,8 @@ namespace BookShop.Controllers
             return View(categoryModel);
         }
 
+
+
         // GET: Category/Create
         public IActionResult Create()
         {
@@ -50,20 +54,19 @@ namespace BookShop.Controllers
         }
 
         // POST: Category/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] CategoryModel categoryModel)
+        public async Task<IActionResult> Create(CategoryModel category)
         {
-            if (ModelState.IsValid)
+            if (!string.IsNullOrWhiteSpace(category.Name))
             {
-                _context.Add(categoryModel);
+                _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            return View(categoryModel);
+
+            return View(category);
         }
+
 
         // GET: Category/Edit/5
         public async Task<IActionResult> Edit(int? id)

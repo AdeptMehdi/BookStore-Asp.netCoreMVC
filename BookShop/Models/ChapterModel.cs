@@ -1,5 +1,7 @@
 ﻿using BookStore.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
+[Table("Chapters")]
 public class ChapterModel
 {
     public int Id { get; set; }

@@ -408,3 +408,4 @@ D:\Program\webapp\BookShop\BookShop\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.S
 D:\Program\webapp\BookShop\BookShop\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Program\webapp\BookShop\BookShop\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Scripting.resources.dll
 D:\Program\webapp\BookShop\BookShop\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Scripting.resources.dll
+D:\Program\webapp\BookShop\BookShop\bin\Debug\net9.0\Stripe.net.dll

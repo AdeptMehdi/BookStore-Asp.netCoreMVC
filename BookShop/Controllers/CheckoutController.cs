@@ -12,7 +12,7 @@ namespace BookStore.Controllers
         // GET: /Checkout
         public IActionResult Index()
         {
-            var cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+            var cart = HttpContext.Session.GetObject<List<CartItemModel>>(CartSessionKey) ?? new List<CartItemModel>();
             if (!cart.Any())
                 return RedirectToAction("Index", "Home");
 
@@ -24,7 +24,7 @@ namespace BookStore.Controllers
         [HttpPost]
         public IActionResult PlaceOrder(string name, string email, string address)
         {
-            var cart = HttpContext.Session.GetObject<List<CartItem>>(CartSessionKey) ?? new List<CartItem>();
+            var cart = HttpContext.Session.GetObject<List<CartItemModel>>(CartSessionKey) ?? new List<CartItemModel>();
             if (!cart.Any()) return RedirectToAction("Index", "Home");
 
             var options = new SessionCreateOptions

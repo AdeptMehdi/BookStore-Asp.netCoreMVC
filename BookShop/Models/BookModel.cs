@@ -23,7 +23,7 @@ namespace BookStore.Models
         public int Quantity { get; set; }
 
         public string ISBN { get; set; }
-        public string ImagePath { get; set; } // مسیر عکس
+        public string ImagePath { get; set; } = "/images/default-book.jpg"; // مسیر پیش‌فرض عکس
 
         public ICollection<ChapterModel> Chapters { get; set; } = new List<ChapterModel>();
         // Foreign Key

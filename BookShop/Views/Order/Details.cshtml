@@ -1,0 +1,32 @@
+﻿@model BookStore.Models.OrderModel
+
+<h2>Order Details - #@Model.Id</h2>
+
+<p><strong>Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd")</p>
+<p><strong>Shipping Address:</strong> @Model.ShippingAddress</p>
+<p><strong>Status:</strong> @Model.Status</p>
+
+<h4>Items</h4>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Book</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.OrderItems)
+    {
+        <tr>
+            <td>@item.Book.Title</td>
+            <td>$@item.Price</td>
+            <td>@item.Quantity</td>
+            <td>$@(item.Price * item.Quantity)</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p class="text-end"><strong>Total: $@Model.TotalPrice</strong></p>
