@@ -1,0 +1,20 @@
+﻿@model BookStore.Models.ApplicationUser
+
+<h2>ویرایش اطلاعات</h2>
+
+<form asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label asp-for="FullName"></label>
+        <input asp-for="FullName" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">ذخیره</button>
+    <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+</form>

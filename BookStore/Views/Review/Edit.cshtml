@@ -1,0 +1,24 @@
+﻿@model BookStore.Models.Review
+
+@{
+    ViewData["Title"] = "ویرایش نظر";
+}
+
+<h2>ویرایش نظر</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="BookId" />
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Comment" class="form-label"></label>
+        <textarea asp-for="Comment" class="form-control"></textarea>
+        <span asp-validation-for="Comment" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">ذخیره</button>
+    <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+</form>

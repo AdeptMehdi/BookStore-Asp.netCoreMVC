@@ -1,0 +1,36 @@
+﻿@model BookStore.Models.Book
+
+@{
+    ViewData["Title"] = "جزئیات کتاب";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- تصویر کتاب -->
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title" style="object-fit:cover; height:400px;" />
+            </div>
+        </div>
+
+        <!-- اطلاعات کتاب -->
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4">
+                <h2 class="mb-3">@Model.Title</h2>
+                <p class="text-muted mb-1"><strong>نویسنده:</strong> @Model.Author</p>
+                <p class="text-muted mb-1"><strong>ISBN:</strong> @Model.ISBN</p>
+                <p class="text-muted mb-1"><strong>قیمت:</strong> @Model.Price.ToString("N0") تومان</p>
+                <p class="text-muted mb-1"><strong>دسته‌بندی:</strong> @Model.Category?.Name</p>
+
+                <hr />
+
+
+
+                <div class="mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">ویرایش</a>
+                    <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BookStore.Models.Review>
+
+@{
+    ViewData["Title"] = "مدیریت نظرات";
+}
+
+<h2>مدیریت نظرات</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>کتاب</th>
+        <th>کاربر</th>
+        <th>نظر</th>
+        <th>تاریخ</th>
+        <th>عملیات</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var review in Model)
+    {
+        <tr>
+            <td>@review.Book?.Title</td>
+            <td>@review.UserName</td>
+            <td>@review.Comment</td>
+            <td>@review.CreatedAt.ToString("yyyy/MM/dd HH:mm")</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@review.Id" class="btn btn-warning btn-sm">ویرایش</a>
+                <a asp-action="Delete" asp-route-id="@review.Id" class="btn btn-danger btn-sm"
+                   onclick="return confirm('آیا مطمئن هستید؟')">حذف</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+﻿@model BookStore.Models.ApplicationUser
+
+<h2>پروفایل من</h2>
+
+<div class="mb-3">
+    <strong>نام کامل:</strong> @Model.FullName <br />
+    <strong>ایمیل:</strong> @Model.Email <br />
+    <strong>شماره تماس:</strong> @Model.PhoneNumber
+</div>
+
+<a asp-action="Edit" class="btn btn-warning">ویرایش اطلاعات</a>
+<a asp-action="ChangePassword" class="btn btn-secondary">تغییر رمز عبور</a>
+
+<hr />
+<h3>سفارشات من</h3>
+@if (ViewBag.Orders.Count == 0)
+{
+    <p>سفارشی ثبت نکرده‌اید.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>تاریخ</th>
+            <th>مبلغ</th>
+            <th>وضعیت پرداخت</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var order in ViewBag.Orders)
+        {
+            <tr>
+                <td>@order.OrderDate.ToString("yyyy/MM/dd HH:mm")</td>
+                <td>@order.TotalAmount.ToString("N0") تومان</td>
+                <td>@order.PaymentStatus</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<hr />
+<h3>نظرات من</h3>
+@if (ViewBag.Reviews.Count == 0)
+{
+    <p>نظری ثبت نکرده‌اید.</p>
+}
+else
+{
+    <ul>
+        @foreach (var review in ViewBag.Reviews)
+        {
+            <li>
+                <strong>@review.Book.Title:</strong> @review.Comment
+                <span class="text-muted">(@review.CreatedAt.ToString("yyyy/MM/dd"))</span>
+            </li>
+        }
+    </ul>
+}
