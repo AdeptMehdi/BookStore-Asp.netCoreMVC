@@ -1,0 +1,15 @@
+﻿@model BookStore.Models.Book
+
+<div class="card h-100 shadow-sm">
+    <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title" />
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text">@Model.Price.ToString("N0") تومان</p>
+        <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-sm">
+            مشاهده جزئیات
+        </a>
+        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-success btn-sm ms-2">
+            افزودن به سبد
+        </a>
+    </div>
+</div>

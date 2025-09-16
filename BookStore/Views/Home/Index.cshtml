@@ -1,8 +1,76 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model BookStore.Models.HomeViewModel
+
+<!-- اسلایدر -->
+<div id="mainCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="/images/banner1.jpg" class="d-block w-100" alt="بنر ۱">
+        </div>
+        <div class="carousel-item">
+            <img src="/images/banner2.jpg" class="d-block w-100" alt="بنر ۲">
+        </div>
+    </div>
+</div>
+
+<!-- دسته‌بندی‌ها -->
+@if (Model.Categories.Any())
+{
+    <h3 class="mb-3">📚 دسته‌بندی‌ها</h3>
+    <div class="row mb-5">
+        @foreach (var cat in Model.Categories)
+        {
+            <div class="col-md-2 col-6 text-center">
+                <a asp-controller="Book" asp-action="ByCategory" asp-route-id="@cat.Id" class="text-decoration-none">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <i class="fa fa-list fa-2x mb-2"></i>
+                            <h6>@cat.Name</h6>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- کتاب‌های جدید -->
+@if (Model.NewBooks.Any())
+{
+    <h3 class="mb-3">🆕 کتاب‌های جدید</h3>
+    <div class="row mb-5">
+        @foreach (var book in Model.NewBooks)
+        {
+            <div class="col-md-3 mb-4">
+                <partial name="_BookCard" model="book" />
+            </div>
+        }
+    </div>
+}
+
+<!-- پرفروش‌ترین‌ها -->
+@if (Model.BestSellers.Any())
+{
+    <h3 class="mb-3">🔥 پرفروش‌ترین‌ها</h3>
+    <div class="row mb-5">
+        @foreach (var book in Model.BestSellers)
+        {
+            <div class="col-md-3 mb-4">
+                <partial name="_BookCard" model="book" />
+            </div>
+        }
+    </div>
+}
+
+<!-- پیشنهاد ویژه -->
+@if (Model.FeaturedBooks.Any())
+{
+    <h3 class="mb-3">🎁 پیشنهاد ویژه</h3>
+    <div class="row mb-5">
+        @foreach (var book in Model.FeaturedBooks)
+        {
+            <div class="col-md-3 mb-4">
+                <partial name="_BookCard" model="book" />
+            </div>
+        }
+    </div>
+}

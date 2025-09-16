@@ -13,42 +13,99 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /></head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BookStore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    <i class="fa fa-book-open"></i> BookStore
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <!-- منوی سمت چپ -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="fa fa-home"></i> خانه
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Category" asp-action="Index">
+                            <a class="nav-link" asp-controller="Category" asp-action="Index">
                                 <i class="fa fa-list"></i> دسته‌بندی‌ها
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Company" asp-action="Index">
-                                <i class="fa fa-building"></i> شرکت‌ها
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Book" asp-action="Index">
+                            <a class="nav-link" asp-controller="Book" asp-action="Index">
                                 <i class="fa fa-book"></i> کتاب‌ها
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Company" asp-action="Index">
+                                <i class="fa fa-building"></i> ناشران
+                            </a>
+                        </li>
 
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" asp-controller="Admin" asp-action="Index">
+                                    <i class="fa fa-tools"></i> مدیریت
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <form asp-controller="Books" asp-action="Search" method="get" class="d-flex me-2">
+                        <input type="text" name="query" class="form-control me-2" placeholder="جستجوی کتاب..." />
+                        <button type="submit" class="btn btn-outline-success">جستجو</button>
+                    </form>
+
+                    <!-- منوی سمت راست -->
+                    <ul class="navbar-nav ms-auto">
+                        <!-- سبد خرید -->
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" asp-controller="Cart" asp-action="Index">
+                                <i class="fa fa-shopping-cart"></i> سبد خرید
+                                @await Component.InvokeAsync("CartCount")
+                            </a>
+                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Profile" asp-action="Index">
+                                    <i class="fa fa-user"></i> پروفایل من
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link">
+                                        <i class="fa fa-sign-out-alt"></i> خروج
+                                    </button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">
+                                    <i class="fa fa-sign-in-alt"></i> ورود
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Account" asp-action="Register">
+                                    <i class="fa fa-user-plus"></i> ثبت‌نام
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

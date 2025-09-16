@@ -1,0 +1,29 @@
+﻿<h2>گزارش فروش</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="alert alert-info">فروش امروز: @ViewBag.TodaySales.ToString("N0") تومان</div>
+    </div>
+    <div class="col-md-6">
+        <div class="alert alert-success">فروش این ماه: @ViewBag.MonthlySales.ToString("N0") تومان</div>
+    </div>
+</div>
+
+<h4>۵ کتاب پرفروش</h4>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>عنوان کتاب</th>
+        <th>تعداد فروش</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in ViewBag.TopBooks)
+    {
+        <tr>
+            <td>@book.Title</td>
+            <td>@book.Count</td>
+        </tr>
+    }
+    </tbody>
+</table>

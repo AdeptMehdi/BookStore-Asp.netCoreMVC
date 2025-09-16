@@ -1,0 +1,47 @@
+﻿@model BookStore.Models.Order
+
+<h3 class="mb-4">✅ تأیید سفارش</h3>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h5 class="card-title">شماره سفارش: @Model.Id</h5>
+        <p><strong>تاریخ ثبت:</strong> @Model.OrderDate.ToString("yyyy/MM/dd HH:mm")</p>
+        <p><strong>وضعیت:</strong> @Model.Status.ToString()</p>
+        <p><strong>مبلغ کل:</strong> @Model.TotalAmount.ToString("N0") تومان</p>
+    </div>
+</div>
+
+<h5 class="mb-3">📚 آیتم‌های سفارش‌شده:</h5>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th>عنوان کتاب</th>
+        <th>تعداد</th>
+        <th>قیمت واحد</th>
+        <th>قیمت کل</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>@item.Book.Title</td>
+            <td>@item.Quantity</td>
+            <td>@item.Book.Price.ToString("N0") تومان</td>
+            <td>@(item.Book.Price * item.Quantity).ToString("N0") تومان</td>
+        </tr>
+
+    }
+    </tbody>
+</table>
+
+<div class="text-end mt-4">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+        🏠 بازگشت به صفحه اصلی
+    </a>
+    <a asp-action="Invoice" asp-route-id="@Model.Id" class="btn btn-outline-secondary">
+        🧾 مشاهده فاکتور
+    </a>
+
+</div>

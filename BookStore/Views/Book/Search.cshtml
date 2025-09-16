@@ -1,0 +1,29 @@
+﻿@model List<BookStore.Models.Book>
+
+<h3 class="mb-4">🔍 نتایج جستجو برای: "@ViewBag.Query"</h3>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning">
+        هیچ کتابی با این مشخصات پیدا نشد.
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var book in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@book.ImageUrl" class="card-img-top" alt="@book.Title" />
+                    <div class="card-body">
+                        <h5 class="card-title">@book.Title</h5>
+                        <p class="card-text">نویسنده: @book.Author</p>
+                        <p class="card-text">قیمت: @book.Price.ToString("N0") تومان</p>
+                        <a asp-action="Details" asp-route-id="@book.Id" class="btn btn-primary">مشاهده</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

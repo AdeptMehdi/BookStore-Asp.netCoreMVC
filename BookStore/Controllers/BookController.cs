@@ -140,16 +140,16 @@ namespace BookStore.Controllers
 
 
         // GET: Book/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null) return NotFound();
-
             var book = await _context.Books.FindAsync(id);
-            if (book == null) return NotFound();
+            if (book == null)
+                return NotFound();
 
-            ViewBag.CategoryList = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
+            ViewBag.CategoryId = new SelectList(_context.Categories, "Id", "Name", book.CategoryId);
             return View(book);
         }
+
 
         // POST: Book/Edit/5
         [HttpPost]
@@ -220,6 +220,15 @@ namespace BookStore.Controllers
             }
             TempData["success"] = "کتاب با موفقیت حذف شد";
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Search(string query)
+        {
+            var results = _context.Books
+                .Where(b => b.Title.Contains(query) || b.Author.Contains(query))
+                .ToList();
+
+            ViewBag.Query = query;
+            return View(results);
         }
 
 

@@ -13,10 +13,13 @@ namespace BookStore.Models
         public string Author { get; set; } = "";
         public decimal Price { get; set; }
         public string? ImageUrl { get; set; }
+        public int SalesCount { get; set; } = 0;
+
 
         [Required(ErrorMessage = "انتخاب دسته‌بندی الزامی است")]
         public int CategoryId { get; set; }
-
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+        public bool IsFeatured { get; set; } = false;
         [ValidateNever]            
         public Category Category { get; set; }  // nullable
         // پراپرتی ناوبری برای نظرات

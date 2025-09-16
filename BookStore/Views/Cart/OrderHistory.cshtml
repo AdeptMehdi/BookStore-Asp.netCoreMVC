@@ -1,0 +1,40 @@
+﻿@model List<BookStore.Models.Order>
+
+<h3 class="mb-4">📦 تاریخچه سفارش‌های من</h3>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        هنوز سفارشی ثبت نکرده‌اید.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>شماره سفارش</th>
+                <th>تاریخ</th>
+                <th>وضعیت</th>
+                <th>مبلغ کل</th>
+                <th>جزئیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.OrderDate.ToString("yyyy/MM/dd HH:mm")</td>
+                    <td>@order.Status.ToString()</td>
+                    <td>@order.TotalAmount.ToString("N0") تومان</td>
+                    <td>
+                        <a asp-action="Invoice" asp-route-id="@order.Id" class="btn btn-outline-primary btn-sm">
+                            🧾 مشاهده فاکتور
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

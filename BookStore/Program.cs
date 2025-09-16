@@ -40,14 +40,17 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.MapRazorPages();
 
-app.UseAuthentication();
+app.UseAuthentication(); 
 app.UseAuthorization();
+
 app.UseSession();
+
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 // اجرای Seed
 using (var scope = app.Services.CreateScope())

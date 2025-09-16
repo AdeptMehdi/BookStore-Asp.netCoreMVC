@@ -1,0 +1,42 @@
+﻿@model List<ApplicationUser>
+
+<h2>مدیریت کاربران</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>ایمیل</th>
+            <th>نقش</th>
+            <th>وضعیت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>
+                    <form asp-action="ChangeRole" method="post" class="d-flex">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <select name="role" class="form-select form-select-sm me-2">
+                            <option>User</option>
+                            <option>Admin</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">تغییر</button>
+                    </form>
+                </td>
+                <td>@(user.LockoutEnd != null ? "غیرفعال" : "فعال")</td>
+                <td>
+                    <form asp-action="ToggleActive" method="post">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button type="submit" class="btn btn-sm @(user.LockoutEnd != null ? "btn-success" : "btn-danger")">
+                            @(user.LockoutEnd != null ? "فعال‌سازی" : "غیرفعال‌سازی")
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,32 +1,37 @@
-using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using BookStore.Models;
-using Microsoft.AspNetCore.Mvc;
 
-namespace BookStore.Controllers
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    private readonly ApplicationDbContext _context;
+
+    public HomeController(ApplicationDbContext context)
     {
-        private readonly ILogger<HomeController> _logger;
+        _context = context;
+    }
 
-        public HomeController(ILogger<HomeController> logger)
+    public IActionResult Index()
+    {
+        var viewModel = new HomeViewModel
         {
-            _logger = logger;
-        }
+            Categories = _context.Categories.ToList(),
+            NewBooks = _context.Books
+                .OrderByDescending(b => b.CreatedDate)
+                .Take(6)
+                .ToList(),
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+            BestSellers = _context.Books
+                .OrderByDescending(b => b.SalesCount)
+                .Take(6)
+                .ToList(),
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+            FeaturedBooks = _context.Books
+                .Where(b => b.IsFeatured)
+                .Take(6)
+                .ToList()
+        };
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(viewModel);
     }
 }

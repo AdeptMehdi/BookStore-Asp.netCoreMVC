@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h2 class="mb-4">📦 اطلاعات ارسال و پرداخت</h2>
+
+<form asp-action="Checkout" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label class="form-label">نام و نام خانوادگی</label>
+        <input type="text" name="fullName" class="form-control" required />
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">شماره تماس</label>
+        <input type="tel" name="phone" class="form-control" required />
+    </div>
+    <div class="col-12">
+        <label class="form-label">آدرس کامل</label>
+        <textarea name="address" class="form-control" rows="3" required></textarea>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-success btn-lg">رفتن به پرداخت</button>
+        <a asp-action="Index" class="btn btn-secondary">بازگشت به سبد خرید</a>
+    </div>
+</form>

@@ -1,0 +1,26 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<h2>شبیه‌ساز پرداخت</h2>
+<p>مبلغ قابل پرداخت: @ViewBag.Amount تومان</p>
+
+<a asp-action="Result" asp-route-orderId="@ViewBag.OrderId" asp-route-success="true" class="btn btn-success">پرداخت موفق</a>
+<a asp-action="Result" asp-route-orderId="@ViewBag.OrderId" asp-route-success="false" class="btn btn-danger">پرداخت ناموفق</a>
+@if (ViewBag.Success)
+{
+    <div class="alert alert-success">
+        ✅ سفارش شما با موفقیت ثبت شد.
+    </div>
+}
+else
+{
+    <div class="alert alert-danger">
+        ❌ پرداخت ناموفق بود. لطفاً دوباره تلاش کنید.
+    </div>
+}
+
+<a asp-controller="Profile" asp-action="Index" class="btn btn-primary">مشاهده سفارشات</a>
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">بازگشت به صفحه اصلی</a>

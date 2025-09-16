@@ -8,6 +8,7 @@
 
         public int BookId { get; set; }
         public Book Book { get; set; }
+        public decimal UnitPrice { get; set; }
 
         public int Quantity { get; set; }
         public double Price { get; set; }
