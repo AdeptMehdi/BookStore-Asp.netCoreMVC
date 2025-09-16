@@ -1,59 +1,94 @@
 ﻿@model BookStore.Models.Book
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ویرایش کتاب";
 }
 
-<h1>Edit</h1>
+<div class="container my-4">
+    <div class="card border-0 shadow-sm p-4">
+        <h2 class="fw-bold text-primary mb-4">
+            <i class="fa-solid fa-pen-to-square me-2"></i> ویرایش کتاب
+        </h2>
 
-<h4>Book</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+
+            <div class="row g-3">
+                <!-- عنوان کتاب -->
+                <div class="col-md-6">
+                    <label asp-for="Title" class="form-label fw-semibold"></label>
+                    <input asp-for="Title" class="form-control" placeholder="عنوان کتاب را وارد کنید" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
+                </div>
+
+                <!-- نویسنده -->
+                <div class="col-md-6">
+                    <label asp-for="Author" class="form-label fw-semibold"></label>
+                    <input asp-for="Author" class="form-control" placeholder="نام نویسنده را وارد کنید" />
+                    <span asp-validation-for="Author" class="text-danger small"></span>
+                </div>
+
+                <!-- ISBN -->
+                <div class="col-md-6">
+                    <label asp-for="ISBN" class="form-label fw-semibold"></label>
+                    <input asp-for="ISBN" class="form-control" placeholder="شماره ISBN" />
+                    <span asp-validation-for="ISBN" class="text-danger small"></span>
+                </div>
+
+                <!-- قیمت -->
+                <div class="col-md-6">
+                    <label asp-for="Price" class="form-label fw-semibold"></label>
+                    <input asp-for="Price" class="form-control" placeholder="قیمت به تومان" />
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
+
+                <!-- دسته‌بندی -->
+                <div class="col-md-6">
+                    <label asp-for="CategoryId" class="form-label fw-semibold">دسته‌بندی</label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryId" class="form-select">
+                        <option value="">انتخاب دسته‌بندی</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                </div>
+
+                <!-- تصویر فعلی -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">تصویر فعلی</label>
+                    <div class="mb-2">
+                        <img src="@Model.ImageUrl" alt="تصویر کتاب" class="img-thumbnail" style="max-height: 200px;" />
+                    </div>
+                    <label class="form-label fw-semibold">تغییر تصویر</label>
+                    <input type="file" name="file" class="form-control" accept="image/*" onchange="previewImage(event)" />
+                    <div class="mt-2">
+                        <img id="preview" class="img-thumbnail" style="max-height: 200px; display:none;" />
+                    </div>
+                </div>
+
             </div>
-            <div class="form-group">
-                <label asp-for="ISBN" class="control-label"></label>
-                <input asp-for="ISBN" class="form-control" />
-                <span asp-validation-for="ISBN" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Author" class="control-label"></label>
-                <input asp-for="Author" class="form-control" />
-                <span asp-validation-for="Author" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save me-1"></i> ذخیره تغییرات
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left me-1"></i> بازگشت
+                </a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                const preview = document.getElementById('preview');
+                preview.src = reader.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 }

@@ -23,8 +23,19 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSession(); 
+builder.Services.AddSession();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // مسیر صفحه لاگین سفارشی
+    options.LoginPath = "/Account/Login";
+
+    // مسیر صفحه عدم دسترسی (اختیاری)
+    options.AccessDeniedPath = "/Account/AccessDenied";
+
+    // مسیر لاگ‌اوت (اختیاری)
+    options.LogoutPath = "/Account/Logout";
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -52,11 +63,20 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-// اجرای Seed
+
+
+// اجرای Seed Data
 using (var scope = app.Services.CreateScope())
 {
-    await DbInitializer.SeedAsync(scope.ServiceProvider);
+    var services = scope.ServiceProvider;
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    await SeedData.InitializeAsync(roleManager, userManager);
 }
+
+app.Run();
+
 
 
 app.Run();

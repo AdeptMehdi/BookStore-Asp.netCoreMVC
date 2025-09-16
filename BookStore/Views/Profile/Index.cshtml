@@ -1,60 +1,108 @@
 ﻿@model BookStore.Models.ApplicationUser
+@{
+    ViewData["Title"] = "پروفایل من";
+}
 
-<h2>پروفایل من</h2>
+<div class="container my-4">
+    <!-- کارت اطلاعات کاربر -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h4 class="mb-3 text-primary">
+                <i class="fa-solid fa-user-circle me-2"></i> پروفایل من
+            </h4>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>نام کامل:</strong>
+                    <div>@Model.FullName</div>
+                </div>
+                <div class="col-md-4">
+                    <strong>ایمیل:</strong>
+                    <div>@Model.Email</div>
+                </div>
+                <div class="col-md-4">
+                    <strong>شماره تماس:</strong>
+                    <div>@Model.PhoneNumber</div>
+                </div>
+            </div>
+            <div class="d-flex gap-2">
+                <a asp-action="Edit" class="btn btn-warning">
+                    <i class="fa-solid fa-pen-to-square me-1"></i> ویرایش اطلاعات
+                </a>
+                <a asp-action="ChangePassword" class="btn btn-secondary">
+                    <i class="fa-solid fa-key me-1"></i> تغییر رمز عبور
+                </a>
+            </div>
+        </div>
+    </div>
 
-<div class="mb-3">
-    <strong>نام کامل:</strong> @Model.FullName <br />
-    <strong>ایمیل:</strong> @Model.Email <br />
-    <strong>شماره تماس:</strong> @Model.PhoneNumber
+    <!-- سفارشات -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+            <h5 class="mb-3 text-primary">
+                <i class="fa-solid fa-receipt me-2"></i> سفارشات من
+            </h5>
+            @if (ViewBag.Orders == null || ViewBag.Orders.Count == 0)
+            {
+                <p class="text-muted">سفارشی ثبت نکرده‌اید.</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>تاریخ</th>
+                                <th>مبلغ</th>
+                                <th>وضعیت پرداخت</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in ViewBag.Orders)
+                            {
+                                <tr>
+                                    <td>@order.OrderDate.ToString("yyyy/MM/dd HH:mm")</td>
+                                    <td>@order.TotalAmount.ToString("N0") تومان</td>
+                                    <td>
+                                        @if (order.PaymentStatus == "پرداخت شده")
+                                        {
+                                            <span class="badge bg-success">پرداخت شده</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">پرداخت نشده</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- نظرات -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+            <h5 class="mb-3 text-primary">
+                <i class="fa-solid fa-comments me-2"></i> نظرات من
+            </h5>
+            @if (ViewBag.Reviews == null || ViewBag.Reviews.Count == 0)
+            {
+                <p class="text-muted">نظری ثبت نکرده‌اید.</p>
+            }
+            else
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var review in ViewBag.Reviews)
+                    {
+                        <li class="list-group-item">
+                            <strong>@review.Book.Title:</strong> @review.Comment
+                            <span class="text-muted small">(@review.CreatedAt.ToString("yyyy/MM/dd"))</span>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </div>
 </div>
-
-<a asp-action="Edit" class="btn btn-warning">ویرایش اطلاعات</a>
-<a asp-action="ChangePassword" class="btn btn-secondary">تغییر رمز عبور</a>
-
-<hr />
-<h3>سفارشات من</h3>
-@if (ViewBag.Orders.Count == 0)
-{
-    <p>سفارشی ثبت نکرده‌اید.</p>
-}
-else
-{
-    <table class="table table-bordered">
-        <thead>
-        <tr>
-            <th>تاریخ</th>
-            <th>مبلغ</th>
-            <th>وضعیت پرداخت</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var order in ViewBag.Orders)
-        {
-            <tr>
-                <td>@order.OrderDate.ToString("yyyy/MM/dd HH:mm")</td>
-                <td>@order.TotalAmount.ToString("N0") تومان</td>
-                <td>@order.PaymentStatus</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-
-<hr />
-<h3>نظرات من</h3>
-@if (ViewBag.Reviews.Count == 0)
-{
-    <p>نظری ثبت نکرده‌اید.</p>
-}
-else
-{
-    <ul>
-        @foreach (var review in ViewBag.Reviews)
-        {
-            <li>
-                <strong>@review.Book.Title:</strong> @review.Comment
-                <span class="text-muted">(@review.CreatedAt.ToString("yyyy/MM/dd"))</span>
-            </li>
-        }
-    </ul>
-}

@@ -1,48 +1,66 @@
 ﻿@{
-    ViewData["Title"] = "داشبورد ادمین";
+    ViewData["Title"] = "داشبورد مدیریت";
 }
 
-<div class="container mt-4">
-    <h1 class="mb-4">داشبورد مدیریت</h1>
-    <p>خوش آمدید، @User.Identity.Name</p>
+<div class="container my-4">
+    <h1 class="fw-bold text-primary mb-2">
+        <i class="fa-solid fa-gauge-high me-2"></i> داشبورد مدیریت
+    </h1>
+    <p class="text-muted mb-4">خوش آمدید، <strong>@User.Identity.Name</strong></p>
 
-    <div class="row text-center">
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-primary">
+    <div class="row g-3 text-center">
+        <!-- کتاب‌ها -->
+        <div class="col-md-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">📚 کتاب‌ها</h5>
-                    <h2>@ViewBag.TotalBooks</h2>
-                    <a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary btn-sm">مدیریت</a>
+                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width:60px; height:60px;">
+                        <i class="fa-solid fa-book fa-lg"></i>
+                    </div>
+                    <h6 class="text-muted">کتاب‌ها</h6>
+                    <h2 class="fw-bold">@ViewBag.TotalBooks</h2>
+                    <a asp-controller="Book" asp-action="Index" class="btn btn-outline-primary btn-sm mt-2">مدیریت</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-success">
+        <!-- دسته‌بندی‌ها -->
+        <div class="col-md-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">📂 دسته‌بندی‌ها</h5>
-                    <h2>@ViewBag.TotalCategories</h2>
-                    <a asp-controller="Category" asp-action="Index" class="btn btn-outline-success btn-sm">مدیریت</a>
+                    <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width:60px; height:60px;">
+                        <i class="fa-solid fa-folder-open fa-lg"></i>
+                    </div>
+                    <h6 class="text-muted">دسته‌بندی‌ها</h6>
+                    <h2 class="fw-bold">@ViewBag.TotalCategories</h2>
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-outline-success btn-sm mt-2">مدیریت</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-warning">
+        <!-- نظرات -->
+        <div class="col-md-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">💬 نظرات</h5>
-                    <h2>@ViewBag.TotalReviews</h2>
-                    <a asp-controller="Review" asp-action="Index" class="btn btn-outline-warning btn-sm">مدیریت</a>
+                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width:60px; height:60px;">
+                        <i class="fa-solid fa-comments fa-lg"></i>
+                    </div>
+                    <h6 class="text-muted">نظرات</h6>
+                    <h2 class="fw-bold">@ViewBag.TotalReviews</h2>
+                    <a asp-controller="Review" asp-action="Index" class="btn btn-outline-warning btn-sm mt-2">مدیریت</a>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card shadow-sm border-danger">
+        <!-- در انتظار تأیید -->
+        <div class="col-md-3 col-sm-6">
+            <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">⏳ در انتظار تأیید</h5>
-                    <h2>@ViewBag.PendingReviews</h2>
-                    <a asp-controller="Review" asp-action="Index" class="btn btn-outline-danger btn-sm">بررسی</a>
+                    <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width:60px; height:60px;">
+                        <i class="fa-solid fa-hourglass-half fa-lg"></i>
+                    </div>
+                    <h6 class="text-muted">در انتظار تأیید</h6>
+                    <h2 class="fw-bold">@ViewBag.PendingReviews</h2>
+                    <a asp-controller="Review" asp-action="Index" class="btn btn-outline-danger btn-sm mt-2">بررسی</a>
                 </div>
             </div>
         </div>

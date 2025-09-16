@@ -1,15 +1,75 @@
-﻿<h2>ورود به سیستم</h2>
+﻿@using BookStore.ViewModel
+@model LoginViewModel
+@{
+    ViewBag.IsAuthPage = true;
+    ViewData["Title"] = "ورود";
+}
 
-<form asp-action="Login" method="post">
-    <div class="mb-3">
-        <label>ایمیل</label>
-        <input type="email" name="email" class="form-control" required />
-    </div>
-    <div class="mb-3">
-        <label>رمز عبور</label>
-        <input type="password" name="password" class="form-control" required />
-    </div>
-    <button type="submit" class="btn btn-primary">ورود</button>
-</form>
+<div class="auth-shell">
+    <div class="auth-card">
+        <div class="auth-header login">
+            <div class="auth-icon">
+                <i class="fa-solid fa-right-to-bracket"></i>
+            </div>
+            <h2>ورود</h2>
+            <p>به حساب کاربری خود وارد شوید</p>
+            <div class="auth-divider"></div>
+        </div>
 
-<p>حساب کاربری ندارید؟ <a asp-action="Register">ثبت‌نام کنید</a></p>
+        <form asp-action="Login" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-envelope"></i></span>
+                    <input asp-for="Email" class="form-control" placeholder="ایمیل خود را وارد کنید" />
+                </div>
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <div class="input-group">
+                    <input asp-for="Password" class="form-control" placeholder="رمز عبور" id="password" />
+                    <span class="input-group-text toggle-pass" id="togglePassword">
+                        <i class="fa fa-eye"></i>
+                    </span>
+                </div>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fa-solid fa-right-to-bracket me-2"></i> ورود
+            </button>
+
+            <div class="auth-footer">
+                <span>حساب کاربری ندارید؟</span>
+                <a asp-action="Register">ثبت‌نام کنید</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const togglePassword = document.querySelector("#togglePassword");
+            const passwordInput = document.querySelector("#password");
+            const icon = togglePassword.querySelector("i");
+
+            togglePassword.addEventListener("click", function () {
+                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                passwordInput.setAttribute("type", type);
+                icon.classList.toggle("fa-eye");
+                icon.classList.toggle("fa-eye-slash");
+            });
+        });
+    </script>
+}

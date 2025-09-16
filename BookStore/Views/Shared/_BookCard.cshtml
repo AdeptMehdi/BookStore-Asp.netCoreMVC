@@ -1,15 +1,33 @@
 ﻿@model BookStore.Models.Book
 
-<div class="card h-100 shadow-sm">
-    <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title" />
-    <div class="card-body">
-        <h5 class="card-title">@Model.Title</h5>
-        <p class="card-text">@Model.Price.ToString("N0") تومان</p>
-        <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary btn-sm">
-            مشاهده جزئیات
-        </a>
-        <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" class="btn btn-success btn-sm ms-2">
-            افزودن به سبد
-        </a>
+<div class="card h-100 shadow-sm product-card border-0 overflow-hidden">
+    <!-- لینک کل کارت به جزئیات -->
+    <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="text-decoration-none text-dark">
+        <img src="@Model.ImageUrl" class="card-img-top product-img" alt="@Model.Title">
+    </a>
+
+    <div class="card-body d-flex flex-column">
+        <h5 class="product-title text-truncate" title="@Model.Title">
+            <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" class="text-dark text-decoration-none">
+                @Model.Title
+            </a>
+        </h5>
+        <p class="card-text text-muted mb-2">@Model.Author</p>
+
+        <div class="mt-auto">
+            <div class="product-price mb-2">@Model.Price.ToString("N0") تومان</div>
+
+            <!-- دکمه‌ها -->
+            <div class="d-flex gap-2">
+                <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id" 
+                   class="btn btn-outline-primary btn-sm flex-fill">
+                    <i class="fa fa-info-circle me-1"></i> جزئیات
+                </a>
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Id" 
+                   class="btn btn-primary btn-sm flex-fill">
+                    <i class="fa fa-cart-plus me-1"></i> خرید
+                </a>
+            </div>
+        </div>
     </div>
 </div>

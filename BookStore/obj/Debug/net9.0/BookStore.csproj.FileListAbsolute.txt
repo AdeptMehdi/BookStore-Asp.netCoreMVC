@@ -358,9 +358,7 @@ D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\a3ygkwa5zy-2z0
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\nezrqnk58p-muycvpuwrr.gz
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\v0zgfp0y55-87fc7y1x7t.gz
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\yfc7ypekbg-mlv21k5csn.gz
-D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\1x3fppfvuh-b9sayid5wm.gz
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\ay87r24q7h-61n19gt1b8.gz
-D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\dfb6l3e4qo-xtxxf3hu2r.gz
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\dgth7og3l4-bqjiyaj88i.gz
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\y1lbe4pzpg-c2jlpeoesf.gz
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\a4zten6pm9-erw9l3u2r3.gz
@@ -433,3 +431,6 @@ D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\refint\BookStore.dll
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\BookStore.pdb
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\BookStore.genruntimeconfig.cache
 D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\ref\BookStore.dll
+D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\dfb6l3e4qo-tysa6zo927.gz
+D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\q693fd1gcf-lp4u3fa6g2.gz
+D:\Program\webapp\BookStore\BookStore\obj\Debug\net9.0\compressed\1x3fppfvuh-aco23d4z9d.gz

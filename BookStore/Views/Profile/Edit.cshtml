@@ -1,20 +1,52 @@
 ﻿@model BookStore.Models.ApplicationUser
+@{
+    ViewData["Title"] = "ویرایش اطلاعات کاربر";
+}
 
-<h2>ویرایش اطلاعات</h2>
+<div class="container my-4">
+    <div class="card border-0 shadow-sm p-4">
+        <h2 class="fw-bold text-primary mb-4">
+            <i class="fa-solid fa-user-edit me-2"></i> ویرایش اطلاعات کاربر
+        </h2>
 
-<form asp-action="Edit" method="post">
-    <div class="mb-3">
-        <label asp-for="FullName"></label>
-        <input asp-for="FullName" class="form-control" />
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-3">
+                <!-- نام کامل -->
+                <div class="col-md-6">
+                    <label asp-for="FullName" class="form-label fw-semibold"></label>
+                    <input asp-for="FullName" class="form-control" placeholder="نام و نام خانوادگی" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
+                </div>
+
+                <!-- ایمیل -->
+                <div class="col-md-6">
+                    <label asp-for="Email" class="form-label fw-semibold"></label>
+                    <input asp-for="Email" class="form-control" placeholder="ایمیل کاربر" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <!-- شماره تلفن -->
+                <div class="col-md-6">
+                    <label asp-for="PhoneNumber" class="form-label fw-semibold"></label>
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="شماره تماس" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save me-1"></i> ذخیره
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left me-1"></i> بازگشت
+                </a>
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label asp-for="Email"></label>
-        <input asp-for="Email" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="PhoneNumber"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-    </div>
-    <button type="submit" class="btn btn-success">ذخیره</button>
-    <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
-</form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

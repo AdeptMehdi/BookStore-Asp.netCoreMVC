@@ -1,41 +1,90 @@
 ﻿@model List<Order>
+@using BookStore.Models
+@{
+    ViewData["Title"] = "مدیریت سفارشات";
+}
 
-<h2>مدیریت سفارشات</h2>
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>شماره سفارش</th>
-        <th>کاربر</th>
-        <th>تاریخ</th>
-        <th>مبلغ</th>
-        <th>وضعیت</th>
-        <th>عملیات</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var order in Model)
-    {
-        <tr>
-            <td>@order.Id</td>
-            <td>@order.User.FullName</td>
-            <td>@order.OrderDate.ToString("yyyy/MM/dd HH:mm")</td>
-            <td>@order.TotalAmount.ToString("N0") تومان</td>
-            <td>@order.Status</td>
-            <td>
-                <form asp-action="UpdateStatus" method="post" class="d-flex">
-                    <input type="hidden" name="id" value="@order.Id" />
-                    <select name="status" class="form-select form-select-sm me-2">
-                        @foreach (var status in Enum.GetValues(typeof(OrderStatus)))
+<div class="container my-4">
+    <h2 class="fw-bold text-primary mb-4">
+        <i class="fa-solid fa-receipt me-2"></i> مدیریت سفارشات
+    </h2>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>شماره سفارش</th>
+                            <th>کاربر</th>
+                            <th>تاریخ</th>
+                            <th>مبلغ</th>
+                            <th>وضعیت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
                         {
-                            <option value="@status" selected="@(order.Status == (OrderStatus)status)">
-                                @status
-                            </option>
+                            <tr>
+                                <td class="fw-bold">#@order.Id</td>
+                                <td>@order.User.FullName</td>
+                                <td>@order.OrderDate.ToString("yyyy/MM/dd HH:mm")</td>
+                                <td class="text-success fw-bold">@order.TotalAmount.ToString("N0") <small>تومان</small></td>
+                                <td>
+                                    @switch (order.Status)
+                                    {
+                                        case OrderStatus.Pending:
+                                            <span class="badge bg-warning text-dark">در انتظار پرداخت</span>
+                                            break;
+                                        case OrderStatus.Paid:
+                                            <span class="badge bg-info text-dark">پرداخت شده</span>
+                                            break;
+                                        case OrderStatus.Shipped:
+                                            <span class="badge bg-primary">ارسال شده</span>
+                                            break;
+                                        case OrderStatus.Delivered:
+                                            <span class="badge bg-success">تحویل داده شده</span>
+                                            break;
+                                        case OrderStatus.Cancelled:
+                                            <span class="badge bg-danger">لغو شده</span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary">@order.Status</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <form asp-action="UpdateStatus" method="post" class="d-flex align-items-center">
+                                        <input type="hidden" name="id" value="@order.Id" />
+                                        <select name="status" class="form-select form-select-sm me-2">
+                                            @foreach (OrderStatus status in Enum.GetValues(typeof(OrderStatus)))
+                                            {
+                                                string selectedAttr = order.Status == status ? "selected=\"selected\"" : "";
+                                                string statusText = status switch
+                                                {
+                                                    OrderStatus.Pending => "در انتظار پرداخت",
+                                                    OrderStatus.Paid => "پرداخت شده",
+                                                    OrderStatus.Shipped => "ارسال شده",
+                                                    OrderStatus.Delivered => "تحویل داده شده",
+                                                    OrderStatus.Cancelled => "لغو شده",
+                                                    _ => status.ToString()
+                                                };
+
+                                                @Html.Raw($"<option value=\"{status}\" {selectedAttr}>{statusText}</option>")
+                                            }
+                                        </select>
+
+                                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                                            <i class="fa fa-save"></i> ذخیره
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
                         }
-                    </select>
-                    <button type="submit" class="btn btn-sm btn-primary">ذخیره</button>
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

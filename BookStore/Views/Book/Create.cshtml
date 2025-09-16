@@ -1,36 +1,87 @@
 ﻿@model BookStore.Models.Book
-
 @{
-    ViewData["Title"] = "جزئیات کتاب";
+    ViewData["Title"] = "افزودن کتاب جدید";
 }
 
-<div class="container mt-4">
-    <div class="row">
-        <!-- تصویر کتاب -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title" style="object-fit:cover; height:400px;" />
-            </div>
-        </div>
+<div class="container my-4">
+    <div class="card border-0 shadow-sm p-4">
+        <h2 class="fw-bold text-primary mb-4">
+            <i class="fa-solid fa-plus me-2"></i> افزودن کتاب جدید
+        </h2>
 
-        <!-- اطلاعات کتاب -->
-        <div class="col-md-8">
-            <div class="card shadow-sm p-4">
-                <h2 class="mb-3">@Model.Title</h2>
-                <p class="text-muted mb-1"><strong>نویسنده:</strong> @Model.Author</p>
-                <p class="text-muted mb-1"><strong>ISBN:</strong> @Model.ISBN</p>
-                <p class="text-muted mb-1"><strong>قیمت:</strong> @Model.Price.ToString("N0") تومان</p>
-                <p class="text-muted mb-1"><strong>دسته‌بندی:</strong> @Model.Category?.Name</p>
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
 
-                <hr />
-
-
-
-                <div class="mt-4">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">ویرایش</a>
-                    <a asp-action="Index" class="btn btn-secondary">بازگشت</a>
+            <div class="row g-3">
+                <!-- عنوان کتاب -->
+                <div class="col-md-6">
+                    <label asp-for="Title" class="form-label fw-semibold"></label>
+                    <input asp-for="Title" class="form-control" placeholder="عنوان کتاب را وارد کنید" />
+                    <span asp-validation-for="Title" class="text-danger small"></span>
                 </div>
+
+                <!-- نویسنده -->
+                <div class="col-md-6">
+                    <label asp-for="Author" class="form-label fw-semibold"></label>
+                    <input asp-for="Author" class="form-control" placeholder="نام نویسنده را وارد کنید" />
+                    <span asp-validation-for="Author" class="text-danger small"></span>
+                </div>
+
+                <!-- ISBN -->
+                <div class="col-md-6">
+                    <label asp-for="ISBN" class="form-label fw-semibold"></label>
+                    <input asp-for="ISBN" class="form-control" placeholder="شماره ISBN" />
+                    <span asp-validation-for="ISBN" class="text-danger small"></span>
+                </div>
+
+                <!-- قیمت -->
+                <div class="col-md-6">
+                    <label asp-for="Price" class="form-label fw-semibold"></label>
+                    <input asp-for="Price" class="form-control" placeholder="قیمت به تومان" />
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
+
+                <!-- دسته‌بندی -->
+                <div class="col-md-6">
+                    <label asp-for="CategoryId" class="form-label fw-semibold">دسته‌بندی</label>
+                    <select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-select">
+                        <option value="">انتخاب دسته‌بندی</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                </div>
+
+                <!-- آپلود تصویر -->
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">تصویر کتاب</label>
+                    <input type="file" name="file" class="form-control" accept="image/*" onchange="previewImage(event)" />
+                    <div class="mt-2">
+                        <img id="preview" src="~/images/books/no-image.png" alt="پیش‌نمایش" class="img-thumbnail" style="max-height: 200px;" />
+                    </div>
+                </div>
+
             </div>
-        </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save me-1"></i> ذخیره کتاب
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left me-1"></i> بازگشت
+                </a>
+            </div>
+        </form>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('preview').src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+}

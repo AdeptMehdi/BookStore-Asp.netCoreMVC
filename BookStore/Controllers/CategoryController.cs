@@ -1,16 +1,18 @@
 ﻿using BookStore.Data;
 using BookStore.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Controllers
 {
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _db;
-
-        public CategoryController(ApplicationDbContext db)
+        private readonly ApplicationDbContext _context;
+        public CategoryController(ApplicationDbContext db, ApplicationDbContext context)
         {
             _db = db;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -59,6 +61,19 @@ namespace BookStore.Controllers
             }
             return View(obj);
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
+
+            var category = await _context.Categories
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (category == null) return NotFound();
+
+            return View(category);
+        }
+
+
 
         public IActionResult Delete(int? id)
         {

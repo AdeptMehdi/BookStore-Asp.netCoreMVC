@@ -1,6 +1,5 @@
 ﻿using BookStore.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
@@ -8,22 +7,25 @@ namespace BookStore.Data
 {
     public static class SeedData
     {
-        public static async Task Initialize(IServiceProvider serviceProvider)
+        public static async Task InitializeAsync(
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager)
         {
-            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            // نقش‌ها
+            string[] roles = { "Admin", "User" };
 
-            string adminRole = "Admin";
-            string adminEmail = "admin@example.com";
-            string adminPassword = "Admin@123"; // بعداً تغییر بده
-
-            // اگر نقش Admin وجود نداشت، بساز
-            if (!await roleManager.RoleExistsAsync(adminRole))
+            foreach (var role in roles)
             {
-                await roleManager.CreateAsync(new IdentityRole(adminRole));
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
             }
 
-            // اگر کاربر ادمین وجود نداشت، بساز
+            // کاربر ادمین پیش‌فرض
+            string adminEmail = "admin@bookstore.com";
+            string adminPassword = "Admin@123"; // بعداً حتماً تغییر بده
+
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
             {
@@ -31,13 +33,14 @@ namespace BookStore.Data
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
+                    FullName = "مدیر سایت",
                     EmailConfirmed = true
                 };
 
                 var result = await userManager.CreateAsync(adminUser, adminPassword);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(adminUser, adminRole);
+                    await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
             }
         }

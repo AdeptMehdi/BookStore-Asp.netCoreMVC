@@ -1,39 +1,45 @@
 ﻿@model BookStore.Models.Category
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ویرایش دسته‌بندی";
 }
 
-<h1>Edit</h1>
+<div class="container my-4">
+    <div class="card border-0 shadow-sm p-4" style="max-width: 600px; margin: auto;">
+        <h2 class="fw-bold text-primary mb-4">
+            <i class="fa-solid fa-pen-to-square me-2"></i> ویرایش دسته‌بندی
+        </h2>
 
-<h4>Category</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+            <!-- نام دسته‌بندی -->
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-semibold"></label>
+                <input asp-for="Name" class="form-control" placeholder="نام دسته‌بندی را وارد کنید" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="DisplayOrder" class="control-label"></label>
-                <input asp-for="DisplayOrder" class="form-control" />
-                <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+
+            <!-- ترتیب نمایش -->
+            <div class="mb-3">
+                <label asp-for="DisplayOrder" class="form-label fw-semibold"></label>
+                <input asp-for="DisplayOrder" class="form-control" placeholder="ترتیب نمایش" />
+                <span asp-validation-for="DisplayOrder" class="text-danger small"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn btn-success">
+                    <i class="fa fa-save me-1"></i> ذخیره تغییرات
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left me-1"></i> بازگشت
+                </a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

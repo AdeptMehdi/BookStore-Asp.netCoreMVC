@@ -11,27 +11,30 @@ public class HomeController : Controller
         _context = context;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var viewModel = new HomeViewModel
+        var model = new HomeViewModel
         {
-            Categories = _context.Categories.ToList(),
-            NewBooks = _context.Books
-                .OrderByDescending(b => b.CreatedDate)
-                .Take(6)
-                .ToList(),
+            Categories = await _context.Categories.ToListAsync(),
 
-            BestSellers = _context.Books
-                .OrderByDescending(b => b.SalesCount)
-                .Take(6)
-                .ToList(),
+            NewBooks = await _context.Books
+                .OrderByDescending(b => b.CreatedDate) // مرتب‌سازی بر اساس تاریخ ایجاد
+                .Take(8)
+                .ToListAsync(),
 
-            FeaturedBooks = _context.Books
+            BestSellers = await _context.Books
+                .OrderByDescending(b => b.SalesCount) // مرتب‌سازی بر اساس تعداد فروش
+                .Take(8)
+                .ToListAsync(),
+
+            FeaturedBooks = await _context.Books
                 .Where(b => b.IsFeatured)
-                .Take(6)
-                .ToList()
+                .OrderByDescending(b => b.CreatedDate) // یا هر فیلدی که می‌خوای
+                .Take(8)
+                .ToListAsync()
         };
 
-        return View(viewModel);
+        return View(model);
     }
+
 }

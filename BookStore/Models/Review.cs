@@ -15,6 +15,7 @@ namespace BookStore.Models
         public Book Book { get; set; }
 
         [Required(ErrorMessage = "نام خود را وارد کنید")]
+        public string UserId { get; set; }   // شناسه کاربر
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "متن نظر را وارد کنید")]

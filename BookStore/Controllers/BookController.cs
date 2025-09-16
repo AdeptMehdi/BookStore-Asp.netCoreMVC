@@ -1,6 +1,7 @@
 ﻿using BookStore.Data;
 using BookStore.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +16,13 @@ namespace BookStore.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public BookController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
+        public BookController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment,UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
+            _userManager = userManager;
         }
 
         // GET: Book
@@ -47,18 +50,27 @@ namespace BookStore.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddReview(int bookId, string userName, string comment)
+        public async Task<IActionResult> AddReview(int bookId, string comment)
         {
-            if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(comment))
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
             {
-                TempData["error"] = "لطفاً همه فیلدها را پر کنید";
+                TempData["error"] = "برای ثبت نظر باید وارد حساب کاربری شوید";
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (string.IsNullOrWhiteSpace(comment))
+            {
+                TempData["error"] = "لطفاً متن نظر را وارد کنید";
                 return RedirectToAction("Details", new { id = bookId });
             }
 
             var review = new Review
             {
                 BookId = bookId,
-                UserName = userName,
+                UserId = user.Id,          // ذخیره شناسه کاربر
+                UserName = user.UserName,  // ذخیره نام کاربری واقعی
                 Comment = comment
             };
 
@@ -68,6 +80,7 @@ namespace BookStore.Controllers
             TempData["success"] = "نظر شما با موفقیت ثبت شد";
             return RedirectToAction("Details", new { id = bookId });
         }
+
 
 
 

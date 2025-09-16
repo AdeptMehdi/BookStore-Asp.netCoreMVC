@@ -1,5 +1,10 @@
+wwwroot\css\invoice.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\banner1.png
+wwwroot\images\banner2.png
+wwwroot\images\banner\banner1.png
+wwwroot\images\banner\banner2.png
 wwwroot\images\books\43c5abda-c523-48c2-ab54-7181dfcc24f3.png
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
@@ -63,7 +68,7 @@ wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
 D:\Program\webapp\BookStore\BookStore\wwwroot\favicon.ico
-D:\Program\webapp\BookStore\BookStore\wwwroot\css\site.css
+D:\Program\webapp\BookStore\BookStore\wwwroot\js\site.js
 D:\Program\webapp\BookStore\BookStore\wwwroot\lib\jquery\LICENSE.txt
 D:\Program\webapp\BookStore\BookStore\wwwroot\lib\jquery\dist\jquery.slim.min.map
 D:\Program\webapp\BookStore\BookStore\wwwroot\lib\jquery\dist\jquery.slim.min.js
@@ -123,4 +128,5 @@ D:\Program\webapp\BookStore\BookStore\wwwroot\lib\bootstrap\dist\css\bootstrap-g
 D:\Program\webapp\BookStore\BookStore\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css
 D:\Program\webapp\BookStore\BookStore\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
 D:\Program\webapp\BookStore\BookStore\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
-D:\Program\webapp\BookStore\BookStore\wwwroot\js\site.js
+D:\Program\webapp\BookStore\BookStore\wwwroot\css\invoice.css
+D:\Program\webapp\BookStore\BookStore\wwwroot\css\site.css

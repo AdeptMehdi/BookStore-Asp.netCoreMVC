@@ -1,4 +1,5 @@
 ﻿using BookStore.Models;
+using BookStore.ViewModel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,17 +20,40 @@ namespace BookStore.Controllers
         [HttpGet]
         public IActionResult Login() => View();
 
-        // POST: Login
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, false);
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Home");
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            ModelState.AddModelError("", "ایمیل یا رمز عبور اشتباه است");
-            return View();
+            var result = await _signInManager.PasswordSignInAsync(
+                model.Email,
+                model.Password,
+                model.RememberMe,
+                lockoutOnFailure: true
+            );
+
+            if (result.Succeeded)
+            {
+                TempData["LoginSuccess"] = "خوش آمدید! ورود شما با موفقیت انجام شد.";
+                return RedirectToAction("Index", "Home");
+            }
+
+            if (result.IsLockedOut)
+            {
+                TempData["LoginError"] = "حساب شما موقتاً قفل شده است. لطفاً بعداً تلاش کنید.";
+                return View(model);
+            }
+
+            TempData["LoginError"] = "ایمیل یا رمز عبور نادرست است.";
+            return View(model);
         }
+
+
+
 
         // GET: Register
         [HttpGet]

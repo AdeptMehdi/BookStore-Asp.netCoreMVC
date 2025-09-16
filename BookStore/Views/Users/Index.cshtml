@@ -1,42 +1,65 @@
 ﻿@model List<ApplicationUser>
+@{
+    var userRoles = ViewBag.UserRoles as Dictionary<string, string>;
+}
 
-<h2>مدیریت کاربران</h2>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>نام</th>
-            <th>ایمیل</th>
-            <th>نقش</th>
-            <th>وضعیت</th>
-            <th>عملیات</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.FullName</td>
-                <td>@user.Email</td>
-                <td>
-                    <form asp-action="ChangeRole" method="post" class="d-flex">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <select name="role" class="form-select form-select-sm me-2">
-                            <option>User</option>
-                            <option>Admin</option>
-                        </select>
-                        <button type="submit" class="btn btn-sm btn-primary">تغییر</button>
-                    </form>
-                </td>
-                <td>@(user.LockoutEnd != null ? "غیرفعال" : "فعال")</td>
-                <td>
-                    <form asp-action="ToggleActive" method="post">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button type="submit" class="btn btn-sm @(user.LockoutEnd != null ? "btn-success" : "btn-danger")">
-                            @(user.LockoutEnd != null ? "فعال‌سازی" : "غیرفعال‌سازی")
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<h2 class="fw-bold text-primary mb-4"><i class="fa-solid fa-users me-2"></i> مدیریت کاربران</h2>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>نام</th>
+                    <th>ایمیل</th>
+                    <th>نقش</th>
+                    <th>وضعیت</th>
+                    <th>عملیات</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <form asp-action="ChangeRole" method="post" class="d-flex align-items-center">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                @{
+                                    var currentRole = userRoles[user.Id];
+                                }
+                                <select name="role" class="form-select form-select-sm me-2">
+                                    <option value="User" selected="@(currentRole == "User")">User</option>
+                                    <option value="Admin" selected="@(currentRole == "Admin")">Admin</option>
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">
+                                    <i class="fa fa-sync-alt"></i> تغییر
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            @if (user.LockoutEnd != null && user.LockoutEnd > DateTimeOffset.UtcNow)
+                            {
+                                <span class="badge bg-danger">غیرفعال</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">فعال</span>
+                            }
+                        </td>
+                        <td>
+                            <form asp-action="ToggleActive" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit" class="btn btn-sm @(user.LockoutEnd != null && user.LockoutEnd > DateTimeOffset.UtcNow ? "btn-success" : "btn-danger")">
+                                    <i class="fa @(user.LockoutEnd != null && user.LockoutEnd > DateTimeOffset.UtcNow ? "fa-unlock" : "fa-lock")"></i>
+                                    @(user.LockoutEnd != null && user.LockoutEnd > DateTimeOffset.UtcNow ? "فعال‌سازی" : "غیرفعال‌سازی")
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
